@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-time-api
+  namespace: app-time
+spec:
+  selector:
+    matchLabels:
+      app: app-time-api
+  template:
+    metadata:
+      labels:
+        app: app-time-api
+        namespace: app-time
+    spec:
+      containers:
+      - name: app-time-api
+        image: simoncarr/sample-app-time-gui
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
