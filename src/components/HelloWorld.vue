@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'HelloWorld',
   data() {
@@ -16,10 +17,17 @@ export default {
   props: {
     msg: String
   },
+  computed: {
+    ...mapState('user', ['keycloak'])
+  },
   mounted() {
-    
     setInterval(async () => {
-      let result = await fetch(process.env.VUE_APP_API_URL);
+      let result = await fetch(process.env.VUE_APP_API_URL, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${this.keycloak.token}`
+        }
+      });
       let res = await result.json();
       this.currentTime = new Date(res.time)
     }, 1000);
